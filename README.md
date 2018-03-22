@@ -1,0 +1,1 @@
+# KT-AI-academy
