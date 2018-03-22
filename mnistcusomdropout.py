@@ -26,6 +26,7 @@ mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 import tensorflow as tf
 
+sess=tf.InteractiveSession()
 # Parameters
 learning_rate = 0.01
 training_epochs = 15
@@ -97,31 +98,31 @@ train_op = optimizer.minimize(loss_op)
 init = tf.global_variables_initializer()
 
 
-with tf.Session() as sess:
-    sess.run(init)
-    pred = tf.nn.softmax(logits)  # Apply softmax to logits
-    correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(Y, 1))
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-    # Training cycle
-    for epoch in range(training_epochs):
-        avg_cost = 0.
-        total_batch = int(mnist.train.num_examples/batch_size)
-        # Loop over all batches
-        for i in range(total_batch):
-            batch_x, batch_y = mnist.train.next_batch(batch_size)
-            # Run optimization op (backprop) and cost op (to get loss value)
-            _, c ,acc= sess.run([train_op, loss_op,accuracy], feed_dict={X: batch_x,
-                                                            Y: batch_y})
-            # Compute average loss
-            avg_cost += c / total_batch
-        # Display logs per epoch step
-        if epoch % display_step == 0:
-            print("Epoch:", '%04d' % (epoch+1), "cost={:.9f}".format(avg_cost),"acc={0}".format(acc))
-    print("Optimization Finished!")
+#with tf.Session() as sess:
+sess.run(init)
+pred = tf.nn.softmax(logits)  # Apply softmax to logits
+correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(Y, 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+# Training cycle
+for epoch in range(training_epochs):
+    avg_cost = 0.
+    total_batch = int(mnist.train.num_examples/batch_size)
+    # Loop over all batches
+    for i in range(total_batch):
+        batch_x, batch_y = mnist.train.next_batch(batch_size)
+        # Run optimization op (backprop) and cost op (to get loss value)
+        _, c ,acc= sess.run([train_op, loss_op,accuracy], feed_dict={X: batch_x,
+                                                        Y: batch_y})
+        # Compute average loss
+        avg_cost += c / total_batch
+    # Display logs per epoch step
+    if epoch % display_step == 0:
+        print("Epoch:", '%04d' % (epoch+1), "cost={:.9f}".format(avg_cost),"acc={0}".format(acc))
+print("Optimization Finished!")
 
-    # Test model
-    
-    
-    # Calculate accuracy
-    
-    print("Accuracy:", accuracy.eval({X: mnist.test.images, Y: mnist.test.labels}))
+# Test model
+
+
+# Calculate accuracy
+
+print("Accuracy:", accuracy.eval({X: mnist.test.images, Y: mnist.test.labels}))
