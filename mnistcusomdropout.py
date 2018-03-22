@@ -17,7 +17,7 @@ Project: https://github.com/aymericdamien/TensorFlow-Examples/
 #
 # ------------------------------------------------------------------
 
-
+#this is to check branch
 from __future__ import print_function
 
 # Import MNIST data
