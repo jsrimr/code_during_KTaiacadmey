@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jun 25 10:42:24 2018
+
+@author: ktai12
+"""
+
+import numpy as np
+
+import keras
+
+BEFORE_NUMBER = 10
+BATCH_SIZE = 512
+STEPS = 100000
+LOG_STEP = 1000
+
+
+start_point = np.random.uniform(100, 1000, (BATCH_SIZE,))
+difference = np.random.uniform(1, 100, (BATCH_SIZE,))
+samples_x = np.array([start_point + difference * i for i in range(BEFORE_NUMBER)]).transpose([1, 0])
+samples_y = [start_point + BEFORE_NUMBER * difference]
+ 
+
+from keras.layers import Dense,LeakyReLU
+
+model=keras.Sequential()
+model.add(Dense(1000,input_shape=[BEFORE_NUMBER,]))
+model.add(LeakyReLU())
+model.add(Dense(1000))
+model.add(LeakyReLU())
+model.add(Dense(1))
+model.compile(optimizer='rmsprop',loss='mse')
+
+hist=model.fit(samples_x,samples_y,epochs=STEPS,validation_split=0.2)
+
+
+diff=np.array([150,200,300])
+s_point=np.array([100000,200000,300000])
+test_x=np.array([s_point + diff * i for i in range(BEFORE_NUMBER)]).transpose([1, 0])
+test_y=[s_point + BEFORE_NUMBER * diff]
