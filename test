@@ -39,3 +39,6 @@ diff=np.array([150,200,300])
 s_point=np.array([100000,200000,300000])
 test_x=np.array([s_point + diff * i for i in range(BEFORE_NUMBER)]).transpose([1, 0])
 test_y=[s_point + BEFORE_NUMBER * diff]
+
+model.load_weights('weights')
+model.predict(test_x)
